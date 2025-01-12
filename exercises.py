@@ -13,6 +13,19 @@ class Game():
         self.board = board
     def play_game(self):
         print("Welcome to tic-tac-toe, let's play it")
+        while not self.winner or self.tie:
+            self.render()
+            self.get_move()
+            self.check_for_winner()
+            self.check_for_tie()
+            self.switch_turn()
+        
+        if self.winner:
+            print(f"the winner is {self.turn}")
+        else:
+            print(f"We got a is tie, start over")
+
+
     def print_board(self):
         b = self.board
         print(f"""
@@ -31,6 +44,60 @@ class Game():
             print(f"{self.winner} wins the game")
         else:
             print(f"It' player {self.turn}'s turn!")
+
+    def render(self):
+        self.print_board()
+        self.print_message()
+    
+    def get_move(self):
+        while(True):
+            move = input(f"Enter a valid move (Example: A1): ").lower()
+            if move in self.board.keys() and self.board[move] == None:
+                self.board[move] = self.turn
+                break
+            else:
+                print("invalid input, please try it again")
+    
+    def check_for_winner(self):
+        if self.board['a1'] and (self.board['a1'] == self.board['b1'] == self.board['c1']):
+            self.winner = True
+            self.render()
+        if self.board['a2'] and (self.board['a2'] == self.board['b2'] == self.board['c2']):
+            self.winner = True
+            self.render()
+        if self.board['a3'] and (self.board['a3'] == self.board['b3'] == self.board['c3']):
+            self.winner = True
+            self.render()
+        if self.board['a1'] and (self.board['a1'] == self.board['a2'] == self.board['a3']):
+            self.winner = True
+            self.render()
+        if self.board['b1'] and (self.board['b1'] == self.board['b2'] == self.board['b3']):
+            self.winner = True
+            self.render()
+        if self.board['c1'] and (self.board['c1'] == self.board['c2'] == self.board['c3']):
+            self.winner = True
+            self.render()
+        if self.board['a1'] and (self.board['a1'] == self.board['b2'] == self.board['c3']):
+            self.winner = True
+            self.render()
+        if self.board['c1'] and (self.board['c1'] == self.board['b2'] == self.board['a3']):
+            self.winner = True
+            self.render()
+        
+            
+    
+    def check_for_tie(self):
+        if not self.winner:
+            if not None in self.board.values():
+                self.tie = True
+
+    def switch_turn(self):
+        if not self.winner:
+            if self.turn == "X":
+                self.turn = "O"
+            else:
+                self.turn = "X"
+
 
 
 
